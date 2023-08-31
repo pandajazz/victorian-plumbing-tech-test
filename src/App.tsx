@@ -1,11 +1,7 @@
-import { Title } from '@components/Title';
+import ProductsListing from "@components/ProductsListing";
 
-const App = () => {
-  return (
-    <>
-      <Title />
-    </>
-  )
+function App() {
+  return <ProductsListing />;
 }
 
-export default App
+export default App;
