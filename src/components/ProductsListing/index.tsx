@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import apiClient from "@src/api/apiClient";
 import Product from "@components/ProductsListing/Product";
 import SortItems from "@components/ProductsListing/SortItems";
+import Pagination from "@mui/material/Pagination";
 import { ProductType } from "@src/types";
 import { SORT_OPTIONS, PRODUCTS_PER_PAGE } from "@src/constants";
 
@@ -12,6 +13,7 @@ const ProductsListing: FC = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [totalProducts, setTotalProducts] = useState<number>();
   const [errorMsg, setErrorMsg] = useState<string>();
+  const [page, setPage] = useState<number>(1);
   const [sortType, setSortType] = useState(SORT_OPTIONS[0]);
 
   const fetchProducts = () => {
@@ -19,6 +21,7 @@ const ProductsListing: FC = () => {
     apiClient
       .post(`/interviews/listings?apikey=${API_KEY}`, {
         query: "toilets",
+        pageNumber: page,
         sort: sortType.value,
         size: PRODUCTS_PER_PAGE,
       })
@@ -33,7 +36,7 @@ const ProductsListing: FC = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [sortType]);
+  }, [page, sortType]);
 
   if (errorMsg) return <div>{errorMsg}</div>;
   return (
@@ -48,17 +51,25 @@ const ProductsListing: FC = () => {
             {`Total: ${totalProducts}`}
           </div>
         </div>
-        <div className="flex gap-4 flex-wrap justify-center mx-4 md:mx-8 mt-[180px] mb-[80px]">
-          {loading ? (
-            <div className="text-indigo-400 text-base font-semibold md:text-2xl text-center">
-              Loading...
-            </div>
-          ) : (
-            products?.map((product, key) => (
-              <Product key={key} product={product} />
-            ))
-          )}
-        </div>
+      </div>
+      <div className="flex gap-4 flex-wrap justify-center mx-4 md:mx-8 mt-[180px] mb-[80px]">
+        {loading ? (
+          <div className="text-indigo-400 text-base font-semibold md:text-2xl text-center">
+            Loading...
+          </div>
+        ) : (
+          products?.map((product, key) => (
+            <Product key={key} product={product} />
+          ))
+        )}
+      </div>
+      <div className="flex justify-center p-4 bottom-0 left-0 right-0 fixed bg-white z-50">
+        <Pagination
+          count={Math.ceil(totalProducts / PRODUCTS_PER_PAGE)}
+          onChange={(e, page) => setPage(page)}
+          variant="outlined"
+          shape="rounded"
+        />
       </div>
     </div>
   );

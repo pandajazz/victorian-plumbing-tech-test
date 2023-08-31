@@ -23,7 +23,7 @@ const Product: FC<ProductProps> = ({ product }) => {
         alt={product.image?.attributes?.imageAltText}
         src={product.image?.url}
       />
-      <div className="h-40 flex flex-col">
+      <div className="h-48 flex flex-col">
         <img
           className="h-8 aspect-auto m-auto py-2"
           src={product.brand?.brandImage?.url}
