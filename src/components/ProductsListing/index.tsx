@@ -43,7 +43,7 @@ const ProductsListing: FC = () => {
     <div>
       <div className=" fixed left-0 top-0 right-0 bg-white z-50 w-full p-4">
         <div className="text-2xl text-center font-bold">
-          E-COMMERCE LISTING PAGE
+          VICTORIAN PLUMBING TECH TEST
         </div>
         <div className="flex justify-between items-center">
           <SortItems sortType={sortType} onSortClick={setSortType} />
